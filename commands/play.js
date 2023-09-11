@@ -26,8 +26,7 @@ module.exports = {
         "❌ | **You must be in a voice channel to play something!**"
       );
     if (
-      message.guild.me.voice.channel &&
-      message.member.voice.channel.id !== message.guild.me.voice.channel.id
+      message.guild.me.voice.channel 
     )
       return client.sendTime(
         message.channel,
@@ -75,6 +74,7 @@ module.exports = {
 
         if (Searched.loadType === "PLAYLIST_LOADED") {
           let songs = [];
+          
           for (let i = 0; i < Searched.tracks.length; i++)
             songs.push(TrackUtils.build(Searched.tracks[i], message.author));
           player.queue.add(songs);
@@ -96,8 +96,11 @@ module.exports = {
           //SongAddedEmbed.addField("Playlist duration", `\`${prettyMilliseconds(Searched.tracks, { colonNotation: true })}\``, false)
           Searching.edit(SongAddedEmbed);
         } else if (Searched.loadType.startsWith("TRACK")) {
+          client.log(Searched.tracks[0])
           player.queue.add(
+            
             TrackUtils.build(Searched.tracks[0], message.author)
+            
           );
           if (!player.playing && !player.paused && !player.queue.size)
             player.play();
